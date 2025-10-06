@@ -1,7 +1,6 @@
 from django.urls import path 
 from . import views 
 
-app_name = 'item'
 # this will now be a name space for this app
 urlpatterns = [
     path('', views.items, name='items'),

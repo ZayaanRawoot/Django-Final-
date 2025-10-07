@@ -24,6 +24,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #all urls that begin with item/ will automatically go into item.urls
     path('dashboard/', include('Admin.urls')),
-    path('detail/', include('Item.urls')),
+    path('item/', include('Item.urls')),
     path('', include('Home.urls')),
 ]

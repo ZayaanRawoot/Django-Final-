@@ -5,6 +5,8 @@ from .forms import NewItemForm, EditItemForm
 from .models import Category,Item
 # Create your views here.
 
+app_name = 'Item'
+
 def items(request):
     query = request.GET.get('query', '')#we default this to be empty
     category_id = request.GET.get('category', 0)
@@ -19,13 +21,13 @@ def items(request):
     if query:
         items = items.filter(Q(name__icontains = query) | Q(description__icontains = query))# i = insensitive . if the name contains the query , then the query will be processed. we use a py pair - so if the title or description contains it, it will search.
 
-    return render(request, 'item/items.html', {'items':items, 'query': query, 'categories':
+    return render(request, 'items.html', {'items':items, 'query': query, 'categories':
     categories, 'category_id': int(category_id)})
 
 def detail(request, pk):
     item = get_object_or_404(Item, pk=pk) #gives error if object doesnt exist in db. gets item from item model where the pk is the pk on the model itself 
     related_items = Item.objects.filter(category= item.category, is_sold=False).exclude(pk=pk)[0:3]
-    return render(request, 'item/detail.html', {'item':item, 'related_items': related_items} )
+    return render(request, 'detail.html', {'item':item, 'related_items': related_items} )
 
 @login_required
 def new(request):
@@ -36,11 +38,11 @@ def new(request):
             item.created_by = request.user
             item.save()
 
-            return redirect('item:detail', pk = item.id ) #pass in detail view and id/pk of the item we just created 
+            return redirect('Item:detail', pk = item.id ) #pass in detail view and id/pk of the item we just created 
     else:
         form = NewItemForm()
 
-    return render(request,'item/form.html', {'form':form, 'title':'New Item'})
+    return render(request,'form.html', {'form':form, 'title':'New Item'})
 
 @login_required
 def edit(request,pk):
@@ -51,11 +53,11 @@ def edit(request,pk):
            
             form.save()# we can just say form.save because the created by is already set
 
-            return redirect('item:detail', pk = item.id ) #pass in detail view and id/pk of the item we just created 
+            return redirect('Item:detail', pk = item.id ) #pass in detail view and id/pk of the item we just created 
     else:
         form = EditItemForm(instance=item)#instance passes in some data so the form wont be empty, we do the sane for form variable here
 
-    return render(request,'item/form.html', {'form':form, 'title':'Edit Item'})
+    return render(request,'form.html', {'form':form, 'title':'Edit Item'})
 
 
 @login_required

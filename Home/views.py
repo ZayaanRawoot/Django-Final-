@@ -1,8 +1,12 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 # Where we define views for the app - our logic to respond and display certain things/pages 
 # Create your views here.
 from Item.models import Category, Item
 from .forms import SignUpForm
+
+app_name = 'Home'
+
 def index(request):
     # request is info about the browser ,ip address, if its a GET, POST request etc. has to be put on all views we use
     items = Item.objects.filter(is_sold=False)[0:6] # if it is not sold it will display 6 latest items 
@@ -24,4 +28,9 @@ def signup(request):
 
     return render(request, 'signup.html', {'form':form})
 
-        
+def about(request):
+    return render(request, 'about.html')
+
+@login_required
+def post(request):
+    return redirect('item:create')

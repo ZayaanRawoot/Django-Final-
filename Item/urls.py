@@ -1,12 +1,13 @@
-from django.urls import path 
-from . import views 
+from django.urls import path
+from . import views
 
-# this will now be a name space for this app
+app_name = 'item'
+
 urlpatterns = [
-    path('', views.items, name='items'),
-    path('new/', views.new, name='new'),
-    path('<int:pk>/', views.detail, name='detail'),
-    # when this has an ineteger , we want to use the details view and the name will be detail 
-    path('<int:pk>/delete/', views.delete, name='delete'),
-    path('<int:pk>/edit/', views.edit, name='edit'),
+    path('', views.browse_jobs, name='browse'),                 # List jobs
+    path('<int:pk>/', views.job_detail, name='detail'),         # Job detail
+    path('<int:pk>/apply/', views.apply_to_job, name='apply'), # Apply to job
+    path('job/edit/<int:pk>/', views.edit_job, name='edit_job'),
+    path('job/delete/<int:pk>/', views.delete_job, name='delete_job'),
+    path('application/<int:pk>/delete/', views.delete_application, name='delete_application'),  # Delete an application
 ]

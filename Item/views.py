@@ -1,67 +1,82 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.shortcuts import render,redirect, get_object_or_404
-from .forms import NewItemForm, EditItemForm
-from .models import Category,Item
-# Create your views here.
-
-app_name = 'Item'
-
-def items(request):
-    query = request.GET.get('query', '')#we default this to be empty
-    category_id = request.GET.get('category', 0)
-    categories = Category.objects.all()
-    items = Item.objects.filter(is_sold=False)
-
-    if category_id:
-        # if we selected a category
-        items = items.filter(category_id = category_id)
-
-
-    if query:
-        items = items.filter(Q(name__icontains = query) | Q(description__icontains = query))# i = insensitive . if the name contains the query , then the query will be processed. we use a py pair - so if the title or description contains it, it will search.
-
-    return render(request, 'items.html', {'items':items, 'query': query, 'categories':
-    categories, 'category_id': int(category_id)})
-
-def detail(request, pk):
-    item = get_object_or_404(Item, pk=pk) #gives error if object doesnt exist in db. gets item from item model where the pk is the pk on the model itself 
-    related_items = Item.objects.filter(category= item.category, is_sold=False).exclude(pk=pk)[0:3]
-    return render(request, 'detail.html', {'item':item, 'related_items': related_items} )
+from django.shortcuts import render, redirect, get_object_or_404
+from Dashboard.models import Job, Application
+from django.urls import reverse
 
 @login_required
-def new(request):
-    if request.method == 'POST':
-        form = NewItemForm(request.POST, request.FILES)
-        if form.is_valid():
-            item = form.save(commit=False)#this will create an object but not save it to the database. the row will have an error otherwise if it is saved without the created_by field 
-            item.created_by = request.user
-            item.save()
+def browse_jobs(request):
+    jobs = Job.objects.all()
 
-            return redirect('Item:detail', pk = item.id ) #pass in detail view and id/pk of the item we just created 
-    else:
-        form = NewItemForm()
+    position = request.GET.get('position')
+    company = request.GET.get('company')
+    category = request.GET.get('category')
+    job_type = request.GET.get('job_type')
 
-    return render(request,'form.html', {'form':form, 'title':'New Item'})
+    if position:
+        jobs = jobs.filter(job_position__icontains=position)
+    if company:
+        jobs = jobs.filter(company_name__icontains=company)
+    if category:
+        jobs = jobs.filter(category=category)
+    if job_type:
+        jobs = jobs.filter(job_type=job_type)
 
-@login_required
-def edit(request,pk):
-    item = get_object_or_404(Item, pk=pk, created_by = request.user)
-    if request.method == 'POST':
-        form = EditItemForm(request.POST, request.FILES, instance=item)
-        if form.is_valid():
-           
-            form.save()# we can just say form.save because the created by is already set
+    user_applications = Application.objects.filter(applicant=request.user)
+    applied_job_ids = user_applications.values_list('job_id', flat=True)
 
-            return redirect('Item:detail', pk = item.id ) #pass in detail view and id/pk of the item we just created 
-    else:
-        form = EditItemForm(instance=item)#instance passes in some data so the form wont be empty, we do the sane for form variable here
+    context = {
+        'jobs': jobs,
+        'applied_job_ids': applied_job_ids,
+        'position_filter': position or '',
+        'company_filter': company or '',
+        'category_filter': category or '',
+        'job_type_filter': job_type or '',
+        'categories': Job.CATEGORY_CHOICES,
+        'job_types': Job.JOB_TYPE_CHOICES,
+    }
+    return render(request, 'browse.html', context)
 
-    return render(request,'form.html', {'form':form, 'title':'Edit Item'})
+
+def job_detail(request, pk):
+    job = get_object_or_404(Job, pk=pk)
+
+    user_is_owner = request.user == job.posted_by if request.user.is_authenticated else False
+    user_has_applied = False
+
+    if request.user.is_authenticated and not user_is_owner:
+        user_has_applied = Application.objects.filter(applicant=request.user, job=job).exists()
+
+    context = {
+        'job': job,
+        'user_is_owner': user_is_owner,
+        'user_has_applied': user_has_applied,
+    }
+    return render(request, 'job_detail.html', context)
 
 
 @login_required
-def delete(request, pk):
-    item = get_object_or_404(Item, pk=pk, created_by = request.user) #we dont want to get objects you havent created yourself 
-    item.delete()
-    return redirect('dashboard:index')#redirect the user to the dashboard
+def apply_to_job(request, pk):
+    # Redirect to dashboard app's apply view
+    return redirect(reverse('dashboard:apply', kwargs={'pk': pk}))
+
+
+@login_required
+def edit_job(request, pk):
+    # Redirect to dashboard's edit job view
+    return redirect(reverse('dashboard:update', kwargs={'pk': pk}))
+
+
+@login_required
+def delete_job(request, pk):
+    # Redirect to dashboard's delete job view
+    return redirect(reverse('dashboard:delete_job', kwargs={'pk': pk}))
+
+
+@login_required
+def delete_application(request, pk):
+    application = get_object_or_404(Application, pk=pk, applicant=request.user)
+    job_id = application.job.id  # Store job id for redirect
+    application.delete()
+    # Redirect back to the job detail page after deletion
+    return redirect(reverse('item:detail', kwargs={'pk': job_id}))

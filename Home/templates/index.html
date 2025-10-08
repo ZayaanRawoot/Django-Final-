@@ -1,43 +1,44 @@
-{% extends "base.html" %}
-{% block title %}Jobs Board{% endblock title %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Available Jobs{% endblock %}
+
 {% block content %}
-
-    <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
-        <h2 class="mb-12 text-2xl text-center">Newest Jobs</h2>
-        <div class="grid grid-cols-3 gap-3">
-            {%for item in items %}
-            <div>
-                <a href="{% url 'item:detail' item.id %}">
-                    <div>
-                        <img src="{{item.image.url}}" class="rounded-t-xl">
-                    </div>
-                    <div class="p-6 bg-white rounded-b-xl">
-                        <h2 class="text-2xl">{{ item.name }}</h2>
-                        <p class="text-gray-500">Price: {{ item.price }}</p>
-                    </div>
-                </a>
+<section class="job-listings-area section-padding">
+    <div class="container">
+        <div class="row justify-content-center mb-4">
+            <div class="col-lg-8 text-center">
+                <h2 class="section-title">Available Job Listings</h2>
+                <p>Browse through all the jobs currently posted on the platform.</p>
             </div>
-            {% endfor %}
+        </div>
+
+        <div class="row">
+            {% if jobs %}
+                {% for job in jobs %}
+                <div class="col-lg-6 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ job.job_position }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ job.company_name }}</h6>
+                            <p class="card-text text-truncate" style="max-height: 3.5em;">{{ job.description }}</p>
+                            <ul class="list-unstyled mb-2">
+                                {% if job.salary %}
+                                    <li><strong>Salary:</strong> R {{ job.salary }}</li>
+                                {% endif %}
+                                <li><strong>Date Posted:</strong> {{ job.date_posted|date:"F j, Y" }}</li>
+                            </ul>
+                            <a href="{% url 'item:detail' job.id %}" class="btn btn-primary btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 text-center">
+                    <p>No jobs found.</p>
+                </div>
+            {% endif %}
         </div>
     </div>
-
-    <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
-        <h2 class="mb-12 text=2xl text-center">Categories</h2>
-        
-        
-        <div class="grid grid-cols-3 gap-3">
-            {% for category in categories %}
-            <div>
-                <a href="#">
-                    
-                    <div class="p-6 bg-white rounded-b-xl">
-                        <h2 class="text-2xl">{{ category.name }}</h2>
-                        <p class="text-gray-500">Price: {{ category.items.count }} items</p>
-                    </div>
-                </a>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-{% endblock content %}
-        
+</section>
+{% endblock %}

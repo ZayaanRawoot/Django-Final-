@@ -18,12 +18,14 @@ Including another URLconf
 # Can be thought of as a table of contents for the whole project , link url to specific view 
 from django.contrib import admin
 from django.urls import path,include
-
+from django.conf import settings
+from django.conf.urls.static import static
 # import views from apps 
 urlpatterns = [
     path('admin/', admin.site.urls),
     #all urls that begin with item/ will automatically go into item.urls
-    path('dashboard/', include('Admin.urls')),
+     path('jobs_and_applications/', include(('Dashboard.urls', 'dashboard'), namespace='dashboard')),
     path('item/', include('Item.urls')),
     path('', include('Home.urls')),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

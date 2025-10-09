@@ -70,7 +70,7 @@ def edit_job(request, pk):
 @login_required
 def delete_job(request, pk):
     # Redirect to dashboard's delete job view
-    return redirect(reverse('dashboard:delete_job', kwargs={'pk': pk}))
+    return redirect(reverse('dashboard:delete', kwargs={'pk': pk}))
 
 
 @login_required

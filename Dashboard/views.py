@@ -13,7 +13,7 @@ def post_job(request):
             job = form.save(commit=False)
             job.posted_by = request.user
             job.save()
-            return redirect('dashboard:list')  # This should match the URL name
+            return redirect('dashboard:overview')  # This should match the URL name
     else:
         form = JobForm()
     return render(request, 'dashboard/post_job.html', {'form': form})
@@ -31,20 +31,44 @@ def update_job(request, pk):
         form = JobForm(instance=job)
     return render(request, 'dashboard/update.html', {'form': form})
 
+# @login_required
+# def delete_job(request, pk):
+#     job = get_object_or_404(Job, pk=pk, posted_by=request.user)
+
+#     if request.method == 'POST':
+#         job.delete()
+#         return redirect('item:browse')  # Or wherever you want to go after deletion
+
+#     return render(request, 'dashboard/confirm_delete.html', {'job': job})
+
+# @login_required
+# def delete_job(request, pk):
+#     job = get_object_or_404(Job, pk=pk, posted_by=request.user)
+
+#     if request.method == 'POST':
+#         job.delete()
+#         return redirect('dashboard:overview')  # Or wherever you want to go after deletion
+
+#     # Optional: prevent GET request from deleting
+#     return redirect('dashboard:overview')
+
 # Delete a job
+# @login_required
+# def delete_job(request, pk):
+#     job = get_object_or_404(Job, pk=pk, posted_by=request.user)
+#     if request.method == 'POST':
+#         job.delete()
+#         return redirect('dashboard:overview')
+#     return HttpResponseNotAllowed(['POST'])
+
 @login_required
 def delete_job(request, pk):
     job = get_object_or_404(Job, pk=pk, posted_by=request.user)
     if request.method == 'POST':
         job.delete()
-        return redirect('dashboard:list')
+        return redirect('dashboard:overview')  # ✅ Correct redirect
     return HttpResponseNotAllowed(['POST'])
 
-# Show jobs created by current user
-@login_required
-def my_jobs_view(request):
-    jobs = Job.objects.filter(posted_by=request.user)
-    return render(request, 'dashboard/list.html', {'jobs': jobs})
 
 # View to see who applied to your posted jobs
 @login_required

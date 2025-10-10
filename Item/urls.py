@@ -2,6 +2,8 @@ from django.urls import path
 from . import views 
 
 # this will now be a name space for this app
+app_name= 'item'
+
 urlpatterns = [
     path('', views.items, name='items'),
     path('new/', views.new, name='new'),

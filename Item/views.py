@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render,redirect, get_object_or_404
-from .forms import NewItemForm, EditItemForm
+# from .forms import NewItemForm, EditItemForm
 from .models import Category,Item
 # Create your views here.
 

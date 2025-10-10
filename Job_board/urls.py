@@ -23,7 +23,9 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     #all urls that begin with item/ will automatically go into item.urls
-    path('dashboard/', include('Admin.urls')),
-    path('detail/', include('Item.urls')),
+    path('dashboard/', include('Admin.urls', namespace='Admin')),
+    path('detail/', include('Item.urls', namespace='Item')),
+    path('items/', include('Item.urls', namespace='Item')),
+
     path('', include('Home.urls')),
 ]

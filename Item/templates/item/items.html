@@ -9,7 +9,7 @@
 
         <!-- Hero Area Start-->
         <div class="slider-area ">
-            <div class="single-slider section-overly slider-height2 d-flex align-items-center" data-background="assets/img/hero/about.jpg">
+            <div class="single-slider section-overly slider-height2 d-flex align-items-center" data-background="{% static 'assets/img/hero/about.jpg' %}">
                 <div class="container">
                     <div class="row">
                         <div class="col-xl-12">
@@ -220,18 +220,18 @@
                                         </div>
                                         <div class="job-tittle job-tittle2">
                                             <a href="#">
-                                                <h4>Digital Marketer</h4>
+                                                <h4>{{ item.name }}</h4>
                                             </a>
                                             <ul>
-                                                <li>Creative Agency</li>
-                                                <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                                <li>$3500 - $4000</li>
+                                                <li>{{ item.category }}</li>
+                                                <li><i class="fas fa-map-marker-alt"></i>{{ item.location }}</li>
+                                                <li>{{ item.salary }}</li>
                                             </ul>
                                         </div>
                                     </div>
                                     <div class="items-link items-link2 f-right">
-                                        <a href="job_details.html">Full Time</a>
-                                        <span>7 hours ago</span>
+                                        <a href="job_details.html">{{ item.job_nature }}</a>
+                                        <span>{{ item.created_at|date:"d M Y" }}</span>
                                     </div>
                                 </div>
                                 <!-- single-job-content -->
@@ -242,12 +242,12 @@
                                         </div>
                                         <div class="job-tittle job-tittle2">
                                             <a href="#">
-                                                <h4>Digital Marketer</h4>
+                                                <h4>{{ item.name }}</h4>
                                             </a>
                                             <ul>
-                                                <li>Creative Agency</li>
-                                                <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                                <li>$3500 - $4000</li>
+                                                <li>{{ item.category }}</li>
+                                                <li><i class="fas fa-map-marker-alt"></i>{{ item.location }}</li>
+                                                <li>{{ item.salary }}</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -264,12 +264,12 @@
                                         </div>
                                         <div class="job-tittle job-tittle2">
                                             <a href="#">
-                                                <h4>Digital Marketer</h4>
+                                                <h4>{{ item.name }}</h4>
                                             </a>
                                             <ul>
-                                                <li>Creative Agency</li>
-                                                <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                                <li>$3500 - $4000</li>
+                                                <li>{{ item.category }}</li>
+                                                <li><i class="fas fa-map-marker-alt"></i>{{ item.location }}</li>
+                                                <li>{{ item.salary }}</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -286,12 +286,12 @@
                                         </div>
                                         <div class="job-tittle job-tittle2">
                                             <a href="#">
-                                                <h4>Digital Marketer</h4>
+                                                <h4>{{ item.name }}</h4>
                                             </a>
                                             <ul>
-                                                <li>Creative Agency</li>
-                                                <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                                <li>$3500 - $4000</li>
+                                                <li>{{ item.category }}</li>
+                                                <li><i class="fas fa-map-marker-alt"></i>{{ item.location }}</li>
+                                                <li>{{ item.salary }}</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -308,12 +308,12 @@
                                         </div>
                                         <div class="job-tittle job-tittle2">
                                             <a href="#">
-                                                <h4>Digital Marketer</h4>
+                                                <h4>{{ item.name }}</h4>
                                             </a>
                                             <ul>
-                                                <li>Creative Agency</li>
-                                                <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                                <li>$3500 - $4000</li>
+                                                <li>{{ item.category }}</li>
+                                                <li><i class="fas fa-map-marker-alt"></i>{{ item.location }}</li>
+                                                <li>{{ item.salary }}</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -330,12 +330,12 @@
                                         </div>
                                         <div class="job-tittle job-tittle2">
                                             <a href="#">
-                                                <h4>Digital Marketer</h4>
+                                                <h4>{{ item.name }}</h4>
                                             </a>
                                             <ul>
-                                                <li>Creative Agency</li>
-                                                <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                                <li>$3500 - $4000</li>
+                                                <li>{{ item.category }}</li>
+                                                <li><i class="fas fa-map-marker-alt"></i>{{ item.location }}</li>
+                                                <li>{{ item.salary }}</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -352,12 +352,12 @@
                                         </div>
                                         <div class="job-tittle job-tittle2">
                                             <a href="#">
-                                                <h4>Digital Marketer</h4>
+                                                <h4>{{ item.name }}</h4>
                                             </a>
                                             <ul>
-                                                <li>Creative Agency</li>
-                                                <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                                <li>$3500 - $4000</li>
+                                                <li>{{ item.category }}</li>
+                                                <li><i class="fas fa-map-marker-alt"></i>{{ item.location }}</li>
+                                                <li>{{ item.salary }}</li>
                                             </ul>
                                         </div>
                                     </div>

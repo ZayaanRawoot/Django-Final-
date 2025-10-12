@@ -23,9 +23,10 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     #all urls that begin with item/ will automatically go into item.urls
-    path('dashboard/', include('Admin.urls', namespace='Admin')),
-    path('detail/', include('Item.urls', namespace='Item')),
-    path('items/', include('Item.urls', namespace='Item')),
+    path('dashboard/', include('Admin.urls')),
+    path('detail/', include('Job.urls')),
+    path('jobs/', include('Job.urls')),
 
     path('', include('Home.urls')),
 ]
+

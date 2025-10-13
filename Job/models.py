@@ -18,6 +18,12 @@ class Category(models.Model):
 
 
 class Job(models.Model):
+    JOB_NATURE_CHOICES = [
+        ('Full Time','Full Time'),
+        ('Part Time','Part Time'),
+        ('Remote','Remote'),
+        ('Freelance','Freelance'),
+    ]
     """Job details"""
     # company = models.ForeignKey('Company', on_delete=models.CASCADE, blank=True, null=True)
     category = models.ForeignKey(Category, related_name='jobs', on_delete=models.CASCADE)#an index in db between item and user, related name to get all the items easily belonging to a specific user, ondelete - if user is deleted then all items will aslo be deleted 
@@ -33,7 +39,7 @@ class Job(models.Model):
     # Job Overview
     city_location = models.CharField(max_length=200, blank=True)
     vacancy = models.PositiveIntegerField(default=1)
-    job_nature = models.CharField(max_length=50, blank=True)
+    job_nature = models.CharField(max_length=50,choices=JOB_NATURE_CHOICES, blank=True)
     yearly_salary = models.CharField(max_length=100, blank=True)
     application_deadline = models.DateField(blank=True, null=True)
     is_filled = models.BooleanField(default=False) #marks if sold or not 

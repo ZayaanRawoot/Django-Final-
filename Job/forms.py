@@ -2,12 +2,12 @@ from django import forms
 from .models import JobApplication
 
 # because we want to apply the same styling throughout the form we create this variable :
-INPUT_CLASSES =  'w-full py-4 px-6 rounded-xl border'
+INPUT_CLASSES =  'form-control mb-3'
 
 class JobApplicationForm(forms.ModelForm):
     class Meta:
         model = JobApplication
-        fields = ( 'job', 'full_name', 'email', 'phone', 'motivational', 'curriculum_vitae')
+        fields = ( 'full_name', 'email', 'phone', 'motivational', 'curriculum_vitae')
 
         widgets = {
             'job':forms.HiddenInput(),

@@ -32,7 +32,7 @@
                         <div class="single-job-items mb-50">
                             <div class="job-items">
                                 <div class="company-img company-img-details">
-                                    <a href="{% url 'Job:job_detail' job.pk %}"><img src="{% static 'assets/img/icon/job-list1.png' %}" alt=""></a>
+                                    <a href="{% url 'Job:job_detail' job.pk %}"><img src="{{ job.image.url}}" alt="{{ job.name }}"></a>
                                 </div>
                                 <div class="job-tittle">
                                     <a href="{% url 'Job:job_detail' job.pk %}">
@@ -109,12 +109,12 @@
                            <div class="small-section-tittle">
                                <h4>Company Information</h4>
                            </div>
-                              <span>{{job.company.company_name}}</span>
-                              <p>{{job.company.company_description}}</p>
+                              <span>{{job.company_name}}</span>
+                              <p>{{job.company_description}}</p>
                             <ul>
-                                <li>Name: <span>{{job.company.company_name }}</span></li>
-                                <li>Web : <span> {{job.company.website}}</span></li>
-                                <li>Email: <span>{{job.company.company_email}}</span></li>
+                                <li>Name: <span>{{job.company_name }}</span></li>
+                                <li>Web : <span> {{job.website}}</span></li>
+                                <li>Email: <span>{{job.company_email}}</span></li>
                             </ul>
                        </div>
                     </div>

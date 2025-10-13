@@ -2,16 +2,19 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render,redirect, get_object_or_404
 from .forms import JobApplicationForm, EditJobApplicationForm
-from .models import Category,Job,JobApplication
+from .models import Category, Job ,JobApplication
 # Create your views here.
 
 def job_list(request):
     query = request.GET.get('query', '')#we default this to be empty
     category_id = request.GET.get('category', 0)
     categories = Category.objects.all()
+    job_type = request.GET.get('job_type')
+    location = request.GET.get('location', '')
+
     jobs = Job.objects.filter(is_filled=False)
 
-    if category_id:
+    if category_id and int(category_id) != 0:
         # if we selected a category
         jobs = jobs.filter(category_id = category_id)
 
@@ -19,8 +22,25 @@ def job_list(request):
     if query:
         jobs = jobs.filter(Q(name__icontains = query) | Q(description__icontains = query))# i = insensitive . if the name contains the query , then the query will be processed. we use a py pair - so if the title or description contains it, it will search.
 
-    return render(request, 'job/job_list.html', {'jobs':jobs, 'query': query, 'categories':
-    categories, 'category_id': int(category_id)})
+    if job_type:
+        jobs = jobs.filter(job_nature__in = job_type)# i = insensitive . if the name contains the query , then the query will be processed. we use a py pair - so if the title or description contains it, it will search.
+    
+    if location:
+        jobs = jobs.filter(location__icontains = location)
+
+    job_types = ["Full Time", "Part Time", "Remote", "Freelance"]
+
+    context = {
+        'jobs':jobs,
+        'query': query,
+        'categories':categories,
+        'category_id': int(category_id),
+        'selected_job_types': job_type,
+        'location': location
+
+    }
+
+    return render(request, 'job/job_list.html', context)
 
 def job_detail(request, pk):
     """View for job details"""

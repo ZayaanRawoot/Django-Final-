@@ -16,16 +16,10 @@ class Category(models.Model):
         return self.name #this returns the name of the category 
 
 
-class Company(models.Model):
-    company_name = models.CharField(max_length=255)
-    company_email = models.EmailField(blank=True,null=True)
-    website = models.URLField(blank=True,null=True)
-    comany_description = models.TextField(blank=True, null=True) #much longer than 255 characters, blank and null = true in case user does not want to provide decrisptions for the product
-   
-    
+
 class Job(models.Model):
     """Job details"""
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True, null=True)
+    # company = models.ForeignKey('Company', on_delete=models.CASCADE, blank=True, null=True)
     category = models.ForeignKey(Category, related_name='jobs', on_delete=models.CASCADE)#an index in db between item and user, related name to get all the items easily belonging to a specific user, ondelete - if user is deleted then all items will aslo be deleted 
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True) #much longer than 255 characters, blank and null = true in case user does not want to provide decrisptions for the product
@@ -50,6 +44,11 @@ class Job(models.Model):
     skills = models.TextField(blank=True, null=True, help_text ="Comma-seperated list of skills")
     experience = models.TextField(blank=True, null=True, help_text ="Comma-seperated list of skills")
 
+    company_name = models.CharField(max_length=255, blank=True)
+    company_email = models.EmailField(blank=True,null=True)
+    website = models.URLField(blank=True,null=True)
+    comany_description = models.TextField(blank=True, null=True) #much longer than 255 characters, blank and null = true in case user does not want to provide decrisptions for the product
+   
 
     def __str__(self):
         # iterable tuple 
@@ -79,7 +78,7 @@ class JobApplication(models.Model):
     email = models.EmailField()
     phone = models.CharField(max_length=20)
     motivational = models.CharField(max_length=255)
-    curriculum_vitae = models.FileField(upload_to ='cv/')
+    curriculum_vitae = models.FileField(upload_to ='cv', blank=True, null=True)
     job = models.ForeignKey('Job', on_delete=models.CASCADE,related_name='applications')
     created_at = models.DateTimeField(auto_now_add=True) #when item was created, added automatically with autonowadd
 
@@ -93,3 +92,7 @@ class JobApplication(models.Model):
         # return self.name #this returns the name of the category 
         return f'{self.full_name} ({self.email}) - {self.job.name}'
 
+
+# class Company(models.Model):
+    
+    

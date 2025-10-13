@@ -16,3 +16,4 @@ urlpatterns = [
     path('applied/', views.applied, name='applied'),
 
 ]
+

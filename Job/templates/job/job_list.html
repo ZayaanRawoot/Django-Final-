@@ -44,6 +44,7 @@
                             </div>
                         </div>
                         <!-- Job Category Listing start -->
+                        <form method = "get">
                         <div class="job-category-listing mb-50">
                             <!-- single one -->
                             <div class="single-listing">
@@ -51,13 +52,13 @@
                                      <h4>Job Category</h4>
                                </div>
                                 <!-- Select job items start -->
+                               
                                 <div class="select-job-items2">
-                                    <select name="select">
-                                        <option value="">All Category</option>
-                                        <option value="">Category 1</option>
-                                        <option value="">Category 2</option>
-                                        <option value="">Category 3</option>
-                                        <option value="">Category 4</option>
+                                    <select name="category" onchange = "this.form.submit()">
+                                        <option value="0">All Category</option>
+                                        {% for cat in categories %}
+                                        <option value="{{cat.id}}" {% if cat.id == category_id %}selected{% endif %}>{{ cat.name }}</option>
+                                    {% endfor %}
                                     </select>
                                 </div>
                                 <!--  Select job items End-->
@@ -66,25 +67,16 @@
                                     <div class="small-section-tittle2">
                                         <h4>Job Type</h4>
                                     </div>
-                                    <label class="container">Full Time
-                                        <input type="checkbox" >
+                                    {% for type in job_types %}
+                                    <label class="container">{{ type }}
+                                        <input type="checkbox" name = "job_type" value = "{{type}}" {% if selected_job_types == type %}checked{% endif %} onchange = "this.form.submit()">
                                         <span class="checkmark"></span>
                                     </label>
-                                    <label class="container">Part Time
-                                        <input type="checkbox" checked="checked active">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="container">Remote
-                                        <input type="checkbox">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="container">Freelance
-                                        <input type="checkbox">
-                                        <span class="checkmark"></span>
-                                    </label>
+                                   
                                 </div>
                                 <!-- select-Categories End -->
                             </div>
+                            {% endfor %}
                             <!-- single two -->
                             <div class="single-listing">
                                <div class="small-section-tittle2">
@@ -92,12 +84,11 @@
                                </div>
                                 <!-- Select job items start -->
                                 <div class="select-job-items2">
-                                    <select name="select">
-                                        <option value="">Anywhere</option>
-                                        <option value="">Category 1</option>
-                                        <option value="">Category 2</option>
-                                        <option value="">Category 3</option>
-                                        <option value="">Category 4</option>
+                                    <select name="location" onchange = "this.form.submit()">
+                                        <option value="0">Anywhere</option>
+                                        {% for loc in locations %}
+                                        <option value="{{ loc }}" {% if location == loc %}selected{% endif %}>{{ loc }}</option>
+                                    {% endfor %}
                                     </select>
                                 </div>
                                 <!--  Select job items End-->
@@ -218,7 +209,7 @@
                                     <div class="job-items">
                                         <div class="company-img">
                                             {% if job.image %}
-                                            <a href="#"><img src="{% url 'Job:job_detail' job.pk %}" alt="{{ job.name }}">
+                                            <a href="{% url 'Job:job_detail' job.pk %}"><img src="{{ job.image.url}}" alt="{{ job.name }}">
                                             {% else %}
                                             <img src="{% static 'assets/img/icon/job-list1.png' %}" alt="Default Job Image">
                                             {% endif %}

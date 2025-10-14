@@ -5,49 +5,57 @@
 
 {% block content %}
 
- <!-- <div class="w-1/2 my-6 mx-auto p-6 bg-gray-100 rounded-xl">
-        <h1 class="mb-6 text-3xl">Apply Now</h1>
-        <form method="post" enctype="multipart/form-data" action="{% url 'Job:apply' job.id %}">
-            {% csrf_token %}
-            {{ form.job }}
-            <div class="mb-3">
-                <label class="inline-block mb-2">Full Name</label><br>
-                {{ form.full_name }}
-            </div>
-            
-             <div class="mb-3">
-                <label class="inline-block mb-2">Email</label><br>
-                {{ form.email}}
-            </div>
-
-            <div class="mb-3">
-                <label class="inline-block mb-2">Resume / CV</label><br>
-                {{ form.curriculum_vitae}}
-            </div>
-
-             <div class="mb-3">
-                <label class="inline-block mb-2">Cover Letter</label><br>
-                {{ form.motivational}}
-            </div>
-
-
-            {% if form.errors or form.non_field_errors%}
-            <div class="mb-3 p-6 bg-red-100 rounded-xl">
-                {% for field in form %}
-                {{ field.errors }}
-                {% endfor %}
-                {{ form.non_field_errors }}
-            </div>
-            {% endif %}
-
-            <button class="btn w-50 text-white "
-                        style="background-color: #14B8A6;">Submit</button>
-        </form>
-    </div> -->
-<form method="post" enctype="multipart/form-data" action="{% url 'Job:apply' job.id %}">
+<div class="d-flex justify-content-center align-items-center vh-100">
+<form method="post" enctype="multipart/form-data" action="{% url 'Job:apply' job.id %}" class="mt-5 mb-5">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Apply</button>
-</form>
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+  
+    <div class="mb-3">
+      <label for="id_full_name" class="form-label">Full Name</label>
+      {{ form.full_name }}
+      {% if form.full_name.errors %}
+        <div class="text-danger small">{{ form.full_name.errors }}</div>
+      {% endif %}
+    </div>
+  
+    <div class="mb-3">
+      <label for="id_email" class="form-label">Email</label>
+      {{ form.email }}
+      {% if form.email.errors %}
+        <div class="text-danger small">{{ form.email.errors }}</div>
+      {% endif %}
+    </div>
+  
+    <div class="mb-3">
+      <label for="id_phone" class="form-label">Phone</label>
+      {{ form.phone }}
+      {% if form.phone.errors %}
+        <div class="text-danger small">{{ form.phone.errors }}</div>
+      {% endif %}
+    </div>
+  
+    <div class="mb-3">
+      <label for="id_motivational" class="form-label">Motivational Message</label>
+      {{ form.motivational }}
+      {% if form.motivational.errors %}
+        <div class="text-danger small">{{ form.motivational.errors }}</div>
+      {% endif %}
+    </div>
+  
+    <div class="mb-3">
+      <label for="id_curriculum_vitae" class="form-label">Upload CV</label>
+      {{ form.curriculum_vitae }}
+      {% if form.curriculum_vitae.errors %}
+        <div class="text-danger small">{{ form.curriculum_vitae.errors }}</div>
+      {% endif %}
+    </div>
+  
+    <button type="submit" class="btn btn-primary" style="display:block; margin:20px auto 0 auto;">Apply</button>
+  </form>
+</div>
 
      {% endblock %}

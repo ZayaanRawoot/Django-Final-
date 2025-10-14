@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import render,redirect, get_object_or_404
 from .forms import JobApplicationForm, EditJobApplicationForm
@@ -55,7 +56,7 @@ def apply(request, pk):
             try:
                 application.save()
                 messages.success(request, 'Your application has been submitted!')
-                return redirect('job_list')  # change to your jobs list URL
+                return redirect('Job:applied')  # change to your jobs list URL
             except Exception as e:
                 messages.error(request, f'Error saving application: {e}')
         else:

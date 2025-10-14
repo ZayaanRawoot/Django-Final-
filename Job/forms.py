@@ -13,7 +13,7 @@ class JobApplicationForm(forms.ModelForm):
             'job':forms.HiddenInput(),
             'full_name':forms.TextInput(attrs={'class': INPUT_CLASSES, 'placeholder': 'Enter your full name'}),
             'email':forms.EmailInput(attrs={'class': INPUT_CLASSES, 'placeholder': 'Enter your email'}),
-            'motivational':forms.Textarea(attrs={'class': INPUT_CLASSES, 'placeholder': 'Write here'}),
+            'motivational':forms.Textarea(attrs={'class': INPUT_CLASSES, 'placeholder': 'Write here', 'rows':4,}),
             'phone':forms.TextInput(attrs={'class': INPUT_CLASSES, 'placeholder': 'Enter your phone number'}),
             'curriculum_vitae':forms.FileInput(attrs={'class': INPUT_CLASSES, 'placeholder': 'Upload CV'}),
         }

@@ -1,1 +1,17 @@
-<h1>Success</h1>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Job detail{% endblock title %}
+
+{% block content %}
+
+
+<div class="container my-5">
+    <div class="alert text-center">
+      <h1 class="mb-4">Success!</h1>
+      <p class="lead">Your job application has been successfully submitted.</p>
+      <a href="{% url 'Job:job_list' %}" class="btn btn-primary mt-4">Back to Job Listings</a>
+    </div>
+  </div>
+
+{% endblock %}
